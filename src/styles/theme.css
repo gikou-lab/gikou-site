@@ -1,32 +1,42 @@
 /*
-  theme.css -- your theme overrides. This is the file to edit to
-  retheme the site.
+  theme.css -- GIKOU の値をひな形の変数に当てる層。tokens.css は書き換えない。
 
-  Every design token lives in src/styles/tokens.css (colors, gradients,
-  type scale, spacing, layout, shadows) with its default value. Override
-  any of them here: declarations in this file are unlayered, so they
-  always beat the @layer base defaults in tokens.css.
-
-  Colors are defined with light-dark(). Overriding with a plain color
-  changes light and dark mode at once; use light-dark(<light>, <dark>)
-  to set different values per mode.
-
-  Rebranding usually only needs --color-brand-* and --color-accent-* --
-  the gradient tokens follow automatically. For a flat, gradient-free
-  brand, set the --gradient-* tokens to solid colors.
-
-  Webfonts are loaded in astro.config.mjs (--font-body). Swap the loaded
-  font there; use overrides here for system fonts or a separate heading
-  face.
-
-  Example:
-
-  :root {
-    --color-brand: light-dark(#0d9488, #2dd4bf);
-    --color-accent: #f59e0b;
-    --font-weight-display: 700;
-  }
+  元：gikou-lab/gikou-marketing の press/src/styles/tokens.css（GIKOU Media Design Token・2026-10-05）。
+  gikou-folio の src/tokens.css も同じ値。右の `← --name` が元の変数名。
+  GIKOU の tokens は明るい地だけ（印刷前提）。暗い表示は作らず、青の単色で描く。
 */
 
 :root {
+	color-scheme: light;
+
+	/* 色 */
+	--color-bg: #ffffff; /* ← --paper */
+	--color-text: #1a1c1f; /* ← --ink */
+	--color-muted: #3a3f47; /* ← --muted */
+	--color-border: #d9dce1; /* ← --line */
+	--color-surface: #f7f7f8; /* ← --canvas */
+	--color-brand: #164a94; /* ← --source-gikou-media-fg（--link も同じ値） */
+	--color-brand-strong: #164a94; /* ← --source-gikou-media-fg（元に濃い段は無い） */
+	--color-brand-soft: #7cb8f0; /* ← --source-gikou-media-light */
+	--color-accent: #164a94; /* ← --source-gikou-media-fg（青の単色にするため） */
+	--color-accent-soft: #7cb8f0; /* ← --source-gikou-media-light */
+	--color-danger: #dc2626; /* GIKOU の tokens に無い。ひな形の明るい側の値を固定し、OS が暗くても変わらないようにする */
+
+	/* グラデーションは使わず、青の単色 */
+	--gradient-brand: #164a94;
+	--gradient-brand-strong: #164a94;
+	--gradient-brand-soft: #e8f1fc; /* ← --source-gikou-media-bg */
+	--gradient-headline: #1a1c1f; /* ← --ink */
+
+	/* 書体と日本語の組み */
+	/* ← --font-sans（"IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", sans-serif）。
+	   astro.config.mjs の fonts が同じ並びで --font-ibm-plex-sans-jp を作る */
+	--font-body: var(--font-ibm-plex-sans-jp);
+	--font-heading: var(--font-body);
+	--font-weight-heading: 700;
+	--font-weight-display: 700; /* IBM Plex Sans JP の太字は 700 まで */
+	--leading-normal: 1.7; /* ← --leading */
+	--leading-relaxed: 1.7;
+	--tracking-tight: 0; /* 字間を詰めると仮名が読みにくい */
+	--tracking-snug: 0;
 }

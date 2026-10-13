@@ -59,10 +59,10 @@ export default defineConfig({
 	fonts: [
 		{
 			provider: fontProviders.google(),
-			name: "Inter",
-			cssVariable: "--font-body",
-			weights: [400, 500, 600, 700, 800],
-			fallbacks: ["sans-serif"],
+			name: "IBM Plex Sans JP",
+			cssVariable: "--font-ibm-plex-sans-jp",
+			weights: [400, 500, 700],
+			fallbacks: ["Hiragino Sans", "Noto Sans JP", "sans-serif"],
 		},
 	],
 	devToolbar: { enabled: false },
