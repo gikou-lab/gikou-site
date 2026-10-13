@@ -33,5 +33,31 @@
       "Edit(CLAUDE.md)",
       "Write(CLAUDE.md)"
     ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "excludedCommands": [
+      "pnpm install --frozen-lockfile"
+    ],
+    "filesystem": {
+      "allowWrite": [
+        "~/Library/pnpm",
+        "~/Library/Preferences/.wrangler/logs",
+        "~/Library/Preferences/.wrangler/registry"
+      ]
+    },
+    "network": {
+      "allowLocalBinding": true,
+      "allowedDomains": [
+        "registry.npmjs.org",
+        "fonts.googleapis.com",
+        "fonts.gstatic.com",
+        "fonts.google.com",
+        "github.com",
+        "api.github.com",
+        "workers.cloudflare.com"
+      ]
+    }
   }
 }
