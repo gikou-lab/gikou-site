@@ -4,7 +4,7 @@
 	"main": "./src/worker.ts",
 	"compatibility_date": "2026-02-24",
 	"compatibility_flags": ["nodejs_compat"],
-	// 本番は gikou.dev の名前だけで受ける。workers.dev とプレビューの URL は出さない
+	// workers.dev とプレビューの URL は出さない（ゾーンの守りを素通りされないため）
 	"workers_dev": false,
 	"preview_urls": false,
 	"d1_databases": [
