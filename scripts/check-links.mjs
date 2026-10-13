@@ -55,12 +55,18 @@ async function crawl() {
 		const res = await fetch(new URL(path, base), { redirect: "follow" });
 		results.set(path, { status: res.status, from: new Set([from]) });
 		const type = res.headers.get("content-type") ?? "";
-		const pattern = type.includes("text/html") ? attrPattern : type.includes("text/css") ? cssUrlPattern : null;
-		if (!pattern) continue;
+		const patterns = type.includes("text/html")
+			? [attrPattern, cssUrlPattern]
+			: type.includes("text/css")
+				? [cssUrlPattern]
+				: [];
+		if (patterns.length === 0) continue;
 		const body = await res.text();
-		for (const [, raw] of body.matchAll(pattern)) {
-			const next = sameOriginPath(raw, path);
-			if (next) queue.push({ path: next, from: path });
+		for (const pattern of patterns) {
+			for (const [, raw] of body.matchAll(pattern)) {
+				const next = sameOriginPath(raw, path);
+				if (next) queue.push({ path: next, from: path });
+			}
 		}
 	}
 	return results;
