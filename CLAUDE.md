@@ -40,6 +40,8 @@ pstack とぶつかったら、まず pstack がなぜそうしているかを�
 - 本番の Worker は `workers_dev = false`・`preview_urls = false`
 - 検索エンジンと AI のクローラーは止めない。守るのは問い合わせフォーム（Turnstile と回数の制限）・API・EmDash の管理画面（Cloudflare Access）だけ
 - 本番の公開は main への merge で CI が出す。手で出せるのはプレビューまで
+- **ゾーン全体のスイッチは触らない。**gikou.dev の WAF・Bot 対策・キャッシュの設定は `in.gikou.dev`（窓口の webhook の入口）にも効く。守りはこのサイトの名前と道に絞ったルールで掛ける。`in.gikou.dev` には触れない
+- Cloudflare の中の名前（Worker・D1・R2・KV）は頭に `gikou-site-` を付ける。Workers AI は使わない（Indexer と無料枠を分け合っている）
 
 ## 見た目
 
