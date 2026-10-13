@@ -9,6 +9,7 @@ import { createServer } from "node:net";
 const startServer = !process.env.BASE_URL;
 const skipPrefixes = ["/_emdash/admin", "/_emdash/api"];
 const attrPattern = /\s(?:href|src)=["']([^"'#]+)["']/g;
+const cssUrlPattern = /url\(["']?([^"')#]+)["']?\)/g;
 
 const astro = (...args) =>
 	execFileSync("pnpm", ["exec", "astro", ...args], { stdio: ["ignore", "pipe", "inherit"] }).toString();
@@ -53,9 +54,11 @@ async function crawl() {
 		}
 		const res = await fetch(new URL(path, base), { redirect: "follow" });
 		results.set(path, { status: res.status, from: new Set([from]) });
-		if (!(res.headers.get("content-type") ?? "").includes("text/html")) continue;
-		const html = await res.text();
-		for (const [, raw] of html.matchAll(attrPattern)) {
+		const type = res.headers.get("content-type") ?? "";
+		const pattern = type.includes("text/html") ? attrPattern : type.includes("text/css") ? cssUrlPattern : null;
+		if (!pattern) continue;
+		const body = await res.text();
+		for (const [, raw] of body.matchAll(pattern)) {
 			const next = sameOriginPath(raw, path);
 			if (next) queue.push({ path: next, from: path });
 		}
