@@ -34,12 +34,11 @@ const seo = page
 		) : (
 			<div class="empty-state">
 				<h1>GIKOU</h1>
-				<p>Edit the home page content in the admin to get started.</p>
-					{Astro.locals.user && (
-						<a href="/_emdash/admin" class="btn btn-primary">
-							Open Admin
-						</a>
-					)}
+				{Astro.locals.user && (
+					<a href="/_emdash/admin" class="btn btn-primary">
+						管理画面を開く
+					</a>
+				)}
 			</div>
 		)
 	}
@@ -54,11 +53,6 @@ const seo = page
 	}
 
 	.empty-state h1 {
-		margin-bottom: var(--spacing-md);
-	}
-
-	.empty-state p {
-		color: var(--color-muted);
 		margin-bottom: var(--spacing-xl);
 	}
 </style>
