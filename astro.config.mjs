@@ -7,7 +7,8 @@ import emdash from "emdash/astro";
 
 export default defineConfig({
 	output: "server",
-	adapter: cloudflare(),
+	// 実行時に画像を変換しない。既定の Images binding は /_image を外から叩かれると変換の枠を食われ、Paid なら課金される
+	adapter: cloudflare({ imageService: "passthrough" }),
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,
