@@ -1,19 +1,22 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "my-marketing-site",
+	"name": "gikou-site-web",
 	"main": "./src/worker.ts",
 	"compatibility_date": "2026-02-24",
 	"compatibility_flags": ["nodejs_compat"],
+	// 本番は gikou.dev の名前だけで受ける。workers.dev とプレビューの URL は出さない
+	"workers_dev": false,
+	"preview_urls": false,
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "my-marketing-site",
+			"database_name": "gikou-site-db",
 		},
 	],
 	"r2_buckets": [
 		{
 			"binding": "MEDIA",
-			"bucket_name": "my-marketing-media",
+			"bucket_name": "gikou-site-media",
 		},
 	],
 	// Sandboxed plugins require Worker Loader, available on Workers paid plans. Uncomment to enable:
