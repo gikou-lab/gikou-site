@@ -108,6 +108,9 @@ const isLoggedIn = !!Astro.locals.user;
 			</div>
 			<div class="footer-bottom">
 				<p>&copy; {new Date().getFullYear()} {siteTitle}</p>
+				<p class="footer-powered">
+					<a href={site.poweredBy.href}>{site.poweredBy.label}</a> で動いています
+				</p>
 			</div>
 		</footer>
 
@@ -367,12 +370,6 @@ const isLoggedIn = !!Astro.locals.user;
 				opacity: 0.5;
 			}
 
-			/* Compact variant of .btn.btn-primary for the header */
-			.nav-cta {
-				padding: var(--spacing-sm) var(--spacing-md);
-				border-radius: var(--radius-sm);
-			}
-
 			main {
 				min-height: calc(100vh - 200px);
 			}
@@ -430,11 +427,15 @@ const isLoggedIn = !!Astro.locals.user;
 				margin: 0 auto;
 				padding: var(--spacing-lg);
 				display: flex;
-				justify-content: flex-start;
+				justify-content: space-between;
 				align-items: center;
 				font-size: var(--font-size-sm);
 				color: var(--color-muted);
 				border-top: 1px solid var(--color-border);
+			}
+
+			.footer-powered a {
+				color: var(--color-text);
 			}
 
 			@media (max-width: 768px) {
