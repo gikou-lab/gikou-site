@@ -38,7 +38,8 @@
     "enabled": true,
     "allowUnsandboxedCommands": false,
     "excludedCommands": [
-      "pnpm install --frozen-lockfile"
+      "pnpm install --frozen-lockfile",
+      "gh *"
     ],
     "filesystem": {
       "allowWrite": [
