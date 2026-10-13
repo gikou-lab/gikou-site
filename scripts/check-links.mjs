@@ -61,7 +61,7 @@ async function crawl() {
 	return results;
 }
 
-if (startServer) astro("preview");
+if (startServer) astro("preview", "--background");
 let exitCode = 0;
 try {
 	await waitForServer();
