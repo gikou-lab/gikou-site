@@ -16,8 +16,11 @@ pnpm install
 pnpm dev        # http://localhost:4321/ 、管理画面は /_emdash/admin
 pnpm typecheck
 pnpm build
+pnpm preview    # build したものを手元の workerd で出す（プレビュー）
 ```
 
+- `pnpm dev` と `pnpm preview` は裏で動き続ける。止めるのは `pnpm exec astro dev stop`・`pnpm exec astro preview stop`
+- プレビューは手元で出す。Cloudflare の上には出さない（`preview_urls` が false）
 - D1・R2・KV は開発サーバーの中（miniflare）で動く。Cloudflare には何も作らない
 - Cloudflare の中の名前は `gikou-site-` で始める（`wrangler.jsonc`）。`workers_dev`・`preview_urls` は止めてある
 - 鍵・`.env`・`.dev.vars` は commit しない（`.gitignore` で止めてある）
