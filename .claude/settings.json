@@ -31,7 +31,14 @@
       "Edit(.claude/**)",
       "Write(.claude/**)",
       "Edit(CLAUDE.md)",
-      "Write(CLAUDE.md)"
+      "Write(CLAUDE.md)",
+      "Bash(gh api *-X*)",
+      "Bash(gh api *--method*)",
+      "Bash(gh api *-f *)",
+      "Bash(gh api *-F *)",
+      "Bash(gh api *--field*)",
+      "Bash(gh api *--raw-field*)",
+      "Bash(gh api *--input*)"
     ]
   },
   "sandbox": {
@@ -39,7 +46,17 @@
     "allowUnsandboxedCommands": false,
     "excludedCommands": [
       "pnpm install --frozen-lockfile",
-      "gh *"
+      "gh pr view *",
+      "gh pr list*",
+      "gh pr create *",
+      "gh pr edit *",
+      "gh pr checks *",
+      "gh pr diff *",
+      "gh pr ready *",
+      "gh issue view *",
+      "gh issue list*",
+      "gh issue comment *",
+      "gh api repos/*"
     ],
     "filesystem": {
       "allowWrite": [
