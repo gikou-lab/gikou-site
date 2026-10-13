@@ -1,9 +1,11 @@
 // ビルドしたサイトを手元で立て、同じオリジンのリンクと資源を辿って、4xx・5xx を見つける。
 // 使い方: pnpm build && pnpm check-links
 // BASE_URL を渡すと、サーバーを立てずにそのアドレスを辿る。
+// 立てるときは 127.0.0.1 の空いている番号を選んで渡す。localhost の 4321 番に別のサーバーが
+// 残っていると、IPv4 と IPv6 で別々のサーバーに当たり、古い中身を辿ってしまうため。
 import { execFileSync } from "node:child_process";
+import { createServer } from "node:net";
 
-const base = new URL(process.env.BASE_URL ?? "http://localhost:4321");
 const startServer = !process.env.BASE_URL;
 const skipPrefixes = ["/_emdash/admin", "/_emdash/api"];
 const attrPattern = /\s(?:href|src)=["']([^"'#]+)["']/g;
@@ -61,7 +63,24 @@ async function crawl() {
 	return results;
 }
 
-if (startServer) astro("preview", "--background");
+function freePort() {
+	return new Promise((resolve, reject) => {
+		const server = createServer();
+		server.on("error", reject);
+		server.listen(0, "127.0.0.1", () => {
+			const { port } = server.address();
+			server.close(() => resolve(port));
+		});
+	});
+}
+
+async function startPreview() {
+	const port = await freePort();
+	astro("preview", "--background", "--force", "--host", "127.0.0.1", "--port", String(port));
+	return `http://127.0.0.1:${port}`;
+}
+
+const base = new URL(startServer ? await startPreview() : process.env.BASE_URL);
 let exitCode = 0;
 try {
 	await waitForServer();
