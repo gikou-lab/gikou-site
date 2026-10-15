@@ -16,6 +16,7 @@
 		{
 			"binding": "DB",
 			"database_name": "gikou-site-db",
+			"database_id": "3bfd1f65-c63a-49c2-88a7-d00e4a06169d",
 		},
 	],
 	"r2_buckets": [
@@ -25,7 +26,11 @@
 		},
 	],
 	// 内容の問い合わせの結果を置くオブジェクトキャッシュ（astro.config.mjs の kvCache と同じ binding）
-	"kv_namespaces": [{ "binding": "CACHE" }],
+	// SESSION は Astro の Cloudflare adapter がログインの状態に使う。番号を書かないと deploy のたびに作り直そうとする
+	"kv_namespaces": [
+		{ "binding": "CACHE", "id": "d9efb031cc694f5f86deb9b2e40c835d" },
+		{ "binding": "SESSION", "id": "27e7469e69064c70b4e08d69deb2ba2f" },
+	],
 	// Sandboxed plugins require Worker Loader, available on Workers paid plans. Uncomment to enable:
 	// "worker_loaders": [{ "binding": "LOADER" }],
 	// General maintenance cron trigger
