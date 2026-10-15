@@ -103,7 +103,7 @@ const isLoggedIn = !!Astro.locals.user;
 					{settings?.tagline && <p class="footer-tagline">{settings.tagline}</p>}
 				</div>
 				<div class="footer-links">
-					{site.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+					{site.footerNav.map((item) => <a href={item.href}>{item.label}</a>)}
 				</div>
 			</div>
 			<div class="footer-bottom">
