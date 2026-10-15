@@ -3,7 +3,7 @@
 
 /// <reference types="emdash/locals" />
 
-import type { BylineSummary, ContentBylineCredit, TaxonomyTerm } from "emdash";
+import type { BylineSummary, ContentBylineCredit, TaxonomyTerm, PortableTextBlock } from "emdash";
 
 export interface PageContentMarketingHeroV1Block {
   _type: "marketing_hero";
@@ -75,6 +75,7 @@ export interface Page {
   status: string;
   title: string;
   content?: PageContentBlock[];
+  body?: PortableTextBlock[];
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;

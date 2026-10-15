@@ -1,58 +1,11 @@
 ---
-import { getEmDashEntry, getSeoMeta } from "emdash";
-import Base from "../layouts/Base.astro";
-import MarketingBlocks from "../components/MarketingBlocks.astro";
+import { getEmDashEntry } from "emdash";
+import PageView from "../components/PageView.astro";
 
 const { entry: page, cacheHint } = await getEmDashEntry("pages", "home");
+if (!page) return Astro.rewrite("/404");
 
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
-
-const pageTitle = page?.data.title;
-const pageContent = page?.data.content;
-const seo = page
-	? getSeoMeta(page, {
-			siteUrl: Astro.url.origin,
-			path: "/",
-		})
-	: null;
 ---
 
-<Base
-	title={seo?.title !== "Home" ? seo?.title : undefined}
-	pageTitle={pageTitle}
-	description={seo?.description}
-	image={seo?.ogImage}
-	canonical={seo?.canonical}
-	robots={seo?.robots}
-	content={page ? { collection: "pages", id: page.data.id, slug: page.id } : undefined}
->
-	{
-		page && pageContent ? (
-			<div {...page.edit.content}>
-				<MarketingBlocks value={pageContent} />
-			</div>
-		) : (
-			<div class="empty-state">
-				<h1>GIKOU</h1>
-				{Astro.locals.user && (
-					<a href="/_emdash/admin" class="btn btn-primary">
-						管理画面を開く
-					</a>
-				)}
-			</div>
-		)
-	}
-</Base>
-
-<style>
-	.empty-state {
-		text-align: center;
-		padding: var(--spacing-5xl) var(--spacing-lg);
-		max-width: var(--max-width);
-		margin: 0 auto;
-	}
-
-	.empty-state h1 {
-		margin-bottom: var(--spacing-xl);
-	}
-</style>
+<PageView page={page} path="/" />
