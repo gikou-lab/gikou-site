@@ -1,9 +1,12 @@
 // ビルドしたサイトを手元で立て、同じオリジンのリンクと資源を辿って、4xx・5xx を見つける。
 // 使い方: pnpm build && pnpm check-links
 // BASE_URL を渡すと、サーバーを立てずにそのアドレスを辿る。
+// 立てたときは、seed のページ（題名と slug だけ）を手元の D1 に入れてから辿る。
+// 本番では setup の画面で入れるもので、ビルドしたサイトには入っていないため。
 // 立てるときは 127.0.0.1 の空いている番号を選んで渡す。localhost の 4321 番に別のサーバーが
 // 残っていると、IPv4 と IPv6 で別々のサーバーに当たり、古い中身を辿ってしまうため。
 import { execFileSync } from "node:child_process";
+import { readdirSync } from "node:fs";
 import { createServer } from "node:net";
 
 const startServer = !process.env.BASE_URL;
@@ -11,13 +14,16 @@ const skipPrefixes = ["/_emdash/admin", "/_emdash/api"];
 const attrPattern = /\s(?:href|src)=["']([^"'#]+)["']/g;
 const cssUrlPattern = /url\(["']?([^"')#]+)["']?\)/g;
 
-const astro = (...args) =>
-	execFileSync("pnpm", ["exec", "astro", ...args], { stdio: ["ignore", "pipe", "inherit"] }).toString();
+const pnpmExec = (...args) =>
+	execFileSync("pnpm", ["exec", ...args], { stdio: ["ignore", "pipe", "inherit"] }).toString();
+const astro = (...args) => pnpmExec("astro", ...args);
+const d1Dir = ".wrangler/state/v3/d1/miniflare-D1DatabaseObject";
 
 async function waitForServer() {
 	for (let i = 0; i < 60; i++) {
 		try {
-			const res = await fetch(base, { redirect: "manual" });
+			// 中身を引かない道で待つ。先に / を引くと、seed を入れる前の「無い」が KV の cache に残る
+			const res = await fetch(new URL("/robots.txt", base), { redirect: "manual" });
 			if (res.status < 500) return;
 		} catch {}
 		await new Promise((r) => setTimeout(r, 1000));
@@ -83,6 +89,12 @@ function freePort() {
 	});
 }
 
+function seedLocalD1() {
+	const files = readdirSync(d1Dir).filter((f) => f.endsWith(".sqlite") && f !== "metadata.sqlite");
+	if (files.length !== 1) throw new Error(`expected one D1 file in ${d1Dir}, found ${files.length}`);
+	pnpmExec("emdash", "seed", "seed/seed.json", "--database", `${d1Dir}/${files[0]}`);
+}
+
 async function startPreview() {
 	const port = await freePort();
 	astro("preview", "--background", "--force", "--host", "127.0.0.1", "--port", String(port));
@@ -93,6 +105,7 @@ const base = new URL(startServer ? await startPreview() : process.env.BASE_URL);
 let exitCode = 0;
 try {
 	await waitForServer();
+	if (startServer) seedLocalD1();
 	const results = await crawl();
 	const broken = [...results].filter(([, r]) => r.status >= 400);
 	console.log(`checked ${results.size} URLs on ${base.origin}`);

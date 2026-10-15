@@ -1,0 +1,96 @@
+---
+import { getSeoMeta, type ContentEntry } from "emdash";
+import { PortableText } from "emdash/ui";
+import Base from "../layouts/Base.astro";
+import type { Page } from "../../emdash-env";
+import MarketingBlocks from "./MarketingBlocks.astro";
+
+interface Props {
+	page: ContentEntry<Page>;
+	path: string;
+}
+
+const { page, path } = Astro.props;
+const { title, content, body } = page.data;
+const seo = getSeoMeta(page, { siteUrl: Astro.url.origin, path });
+const hasContent = (content?.length ?? 0) > 0;
+const hasBody = (body?.length ?? 0) > 0;
+const startsWithHero = content?.[0]?._type === "marketing_hero";
+---
+
+<Base
+	title={path === "/" ? undefined : seo.title}
+	pageTitle={title}
+	description={seo.description}
+	image={seo.ogImage}
+	canonical={seo.canonical}
+	robots={seo.robots}
+	content={{ collection: "pages", id: page.data.id, slug: page.id }}
+>
+	{!startsWithHero && <h1 class="page-title" {...page.edit.title}>{title}</h1>}
+	{
+		hasContent && (
+			<div {...page.edit.content}>
+				<MarketingBlocks value={content} />
+			</div>
+		)
+	}
+	{
+		hasBody && (
+			<div class="page-body" {...page.edit.body}>
+				<PortableText value={body} />
+			</div>
+		)
+	}
+	{!hasContent && !hasBody && <p class="page-pending">準備中です。</p>}
+</Base>
+
+<style>
+	.page-title,
+	.page-body,
+	.page-pending {
+		max-width: var(--max-width);
+		margin-inline: auto;
+		padding-inline: var(--spacing-lg);
+	}
+
+	.page-title {
+		padding-top: var(--spacing-4xl);
+		margin-bottom: var(--spacing-2xl);
+	}
+
+	.page-body {
+		padding-bottom: var(--spacing-4xl);
+		line-height: var(--leading-relaxed);
+	}
+
+	.page-body :global(h2) {
+		font-size: var(--font-size-2xl);
+		margin: var(--spacing-2xl) 0 var(--spacing-md);
+	}
+
+	.page-body :global(h3) {
+		font-size: var(--font-size-xl);
+		margin: var(--spacing-xl) 0 var(--spacing-sm);
+	}
+
+	.page-body :global(p),
+	.page-body :global(ul),
+	.page-body :global(ol) {
+		margin-bottom: var(--spacing-md);
+	}
+
+	.page-body :global(ul),
+	.page-body :global(ol) {
+		padding-left: 1.5em;
+	}
+
+	.page-body :global(li) {
+		margin-bottom: var(--spacing-xs);
+	}
+
+	.page-pending {
+		padding-bottom: var(--spacing-5xl);
+		color: var(--color-muted);
+	}
+</style>

@@ -234,6 +234,7 @@
 			"slug": "pages",
 			"label": "Pages",
 			"labelSingular": "Page",
+			"urlPattern": "/{slug}",
 			"supports": ["drafts", "revisions", "seo"],
 			"fields": [
 				{
@@ -256,6 +257,11 @@
 						],
 						"maxItems": 20
 					}
+				},
+				{
+					"slug": "body",
+					"label": "Body",
+					"type": "portableText"
 				}
 			]
 		}
@@ -267,6 +273,10 @@
 		{ "name": "footer_support", "label": "Footer: Support", "items": [] }
 	],
 	"content": {
-		"pages": []
+		"pages": [
+			{ "id": "home", "slug": "home", "status": "published", "data": { "title": "GIKOU" } },
+			{ "id": "works", "slug": "works", "status": "published", "data": { "title": "手がけているもの" } },
+			{ "id": "privacy", "slug": "privacy", "status": "published", "data": { "title": "プライバシーポリシー" } }
+		]
 	}
 }
