@@ -54,6 +54,8 @@ export default defineConfig({
 			database: d1({ binding: "DB", session: "auto" }),
 			storage: r2({ binding: "MEDIA" }),
 			objectCache: kvCache({ binding: "CACHE" }),
+			// 公開面に編集者用のフローティングのツールバーを出さない。文面は MCP で入れ、確認はプレビュー URL でやる
+			toolbar: false,
 			// 本番の Worker は表を作らない。無料プランの CPU 10 ms で途中で止まり、移行の鍵が残るため。
 			// 本番の表は deploy の前に `emdash migrate` で作る。CI と手元のプレビューは空の D1 から立てるので auto にする
 			migrations: {
