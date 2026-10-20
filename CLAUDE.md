@@ -23,6 +23,10 @@ pstack とぶつかったら、まず pstack がなぜそうしているかを�
 - **ページの文章は EmDash の中（CMS）に置く。**下書きはリポジトリに入れない
 - 鍵は GitHub の secret と Cloudflare に置く。ファイルに書かない
 
+## 設定
+
+外のサービスの設定と鍵の期限は gikou-lab/gikou-site-board の `settings/`（1 サービス 1 本。型は gikou-lab/keiji の `canon/settings.md`）。設定を変えたら、同じ作業の中でここを直す。中身はこのリポジトリ（公開）に写さない。
+
 ## 最初に使う pstack の型
 
 `poteto-mode`（入口）・`how`・`why`・`architect`・`tdd`・`interrogate`・`show-me-your-work`。司令の型は、1 つのセッションで届く仕事なら Autonomous run。`orchestrate` は指示書の型と人の手番の帳面だけを使い、`orch.ts` などの bun の道具は使わない。
