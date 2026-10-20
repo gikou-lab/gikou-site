@@ -3,7 +3,7 @@ import { decodeSlug, getEmDashEntry } from "emdash";
 import PageView from "../components/PageView.astro";
 
 const slug = decodeSlug(Astro.params.slug);
-if (slug === "home") return Astro.redirect("/", 301);
+if (slug === "home") return Astro.redirect(`/${Astro.url.search}`, 301);
 
 const { entry: page, cacheHint } = slug ? await getEmDashEntry("pages", slug) : { entry: null, cacheHint: undefined };
 if (!page) return Astro.rewrite("/404");
