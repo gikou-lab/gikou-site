@@ -1,6 +1,8 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "gikou-site-web",
+	// CI の deploy と emdash migrate が使う（鍵ではない）
+	"account_id": "8f0f3fccdb1512e54711726c0ddf9584",
 	"main": "./src/worker.ts",
 	"compatibility_date": "2026-02-24",
 	"compatibility_flags": ["nodejs_compat"],
