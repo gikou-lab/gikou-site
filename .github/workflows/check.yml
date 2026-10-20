@@ -14,6 +14,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
+      # このリポジトリは公開。外のサービスの設定の文書（settings/）は非公開の gikou-site-board に置く（keiji canon/settings.md）
+      - run: test ! -e settings
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
