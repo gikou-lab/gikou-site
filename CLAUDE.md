@@ -25,6 +25,8 @@ pstack とぶつかったら、まず pstack がなぜそうしているかを�
 
 ## 設定
 
+Cloudflare・EmDash の手順（初回の deploy・MCP・毎日の編集・課金の守り）は keiji `reference/emdash-cloudflare-runbook-2026-10-20.md`。今の設定と鍵は gikou-site-board の `settings/`。
+
 外のサービスの設定と鍵の期限は gikou-lab/gikou-site-board の `settings/`（1 サービス 1 本。型は gikou-lab/keiji の `canon/settings.md`）。設定を変えたら、同じ作業の中でここを直す。中身はこのリポジトリ（公開）に写さない。
 
 ## 最初に使う pstack の型
