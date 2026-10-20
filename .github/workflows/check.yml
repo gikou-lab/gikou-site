@@ -20,8 +20,44 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # 書体のファイル（約 380 個）を毎回 Google から取ると、たまに通信が切れて build が落ちる
+      - uses: actions/cache@v6
+        with:
+          path: node_modules/.astro/fonts
+          key: astro-fonts-${{ hashFiles('astro.config.mjs') }}
       - run: pnpm typecheck
       - run: pnpm build
         env:
           EMDASH_RUNTIME_MIGRATIONS: auto
       - run: pnpm check-links
+
+  # main に入ったものだけを本番に出す。表を先に作り、それから Worker を出す
+  deploy:
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/cache@v6
+        with:
+          path: node_modules/.astro/fonts
+          key: astro-fonts-${{ hashFiles('astro.config.mjs') }}
+      - run: pnpm build
+      # 指紋は wrangler.jsonc の account_id と D1 の番号から決まる。違う D1 を指したら止まる
+      - run: >-
+          pnpm exec emdash migrate --from-config --wrangler-config wrangler.jsonc
+          --expected-target-fingerprint ac11fdb97c1541564e40d98d31f50f62b6eea9257068dd1500ba52d93bd3482d
+      - run: pnpm exec wrangler deploy
