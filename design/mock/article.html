@@ -1,0 +1,241 @@
+<!doctype html>
+<!-- M' のモック（CMS 抜き）。記事・出典・告知の文はすべて架空 -->
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="robots" content="noindex" />
+		<title>画像の差し替えを 1 か所で済ませる：置き場・参照・古い版の扱い — GIKOU</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header class="site-header" data-part="site-header">
+			<nav class="nav" aria-label="サイト">
+				<a href="index.html" class="site-logo">GIKOU</a>
+				<div class="nav-links">
+				<a href="index.html">トップ</a>
+				<a href="#">手がけているもの</a>
+				<a href="index.html#articles" aria-current="page">記事</a>
+				</div>
+			</nav>
+		</header>
+
+		<main>
+			<article class="article" data-part="article">
+				<header class="article-header" data-part="article-header">
+					<p class="breadcrumb"><a href="index.html#articles">記事</a></p>
+					<h1 class="article-title">画像の差し替えを 1 か所で済ませる：置き場・参照・古い版の扱い</h1>
+					<p class="article-dek">記事ごとに画像を貼り直さないために、置き場を 1 つにして参照で呼ぶ。古い版を消す前に確かめること。</p>
+					<div class="meta" data-part="article-meta">
+						<span><time datetime="2026-10-24">2026-10-24</time> 公開</span>
+						<span>· <time datetime="2026-10-25">2026-10-25</time> 更新</span>
+					</div>
+					<ul class="tags" aria-label="タグ">
+						<li><a class="tag" href="tag.html">画像</a></li>
+						<li><a class="tag" href="tag.html">運用</a></li>
+						<li><a class="tag" href="tag.html">移行</a></li>
+					</ul>
+				</header>
+
+				<img class="article-hero" src="img/wide.svg" alt="" width="1600" height="900" />
+
+				<section class="article-summary" data-part="article-summary" aria-labelledby="summary-title">
+					<h2 id="summary-title">要約 <span class="chip">要約・自動生成</span><span class="refs"><a class="ref" href="#src-1">[1]</a><a class="ref" href="#src-2">[2]</a><a class="ref" href="#src-4">[4]</a><a class="ref" href="#src-5">[5]</a></span></h2>
+					<p>画像の置き場を 1 つにして、記事からは ID で呼ぶ。差し替えはライブラリで 1 回やれば全部の記事に効き、参照の無いものだけを消せる。ただし手前のキャッシュとサイトの外からのリンクは、仕組みの外に残る。</p>
+				</section>
+
+				<div class="article-body" data-part="article-body">
+					<p>記事が増えると、同じ画像を何本もの記事に貼り直すことになる。差し替えのたびに全部を開くのをやめ、置き場を 1 つにして記事からは参照で呼ぶ。この見本では、その考え方を 3 つの段に分けて並べる。</p>
+					<h2>置き場を 1 つにする</h2>
+					<figure class="block block-source" data-part="block-source" data-source-type="official">
+						<div class="block-head"><span class="badge">公式</span><span class="chip">原文</span><span class="refs"><a class="ref" href="#src-1">[1]</a></span></div>
+						<blockquote lang="en"><p>Each media file is stored once in the library and gets a stable ID. Entries point to the ID, not to a copy of the file.</p></blockquote>
+						<figcaption class="source-line">[公式] 公式資料 A（架空） · メディアの置き場 · <time datetime="2026-09-30">2026-09-30</time> 公開 · <a href="#src-1">↗ 原典</a></figcaption>
+						<div class="translation" data-part="block-translation">
+							<div class="block-head"><span class="chip">翻訳・自動生成</span><span class="refs"><a class="ref" href="#src-1">[1]</a></span></div>
+							<p>メディアのファイルはライブラリに 1 回だけ置かれ、変わらない ID を持つ。記事はファイルの写しではなく、その ID を指す。</p>
+						</div>
+					</figure>
+					<figure class="block block-source" data-part="block-source" data-source-type="official">
+						<div class="block-head"><span class="badge">公式</span><span class="chip">原文</span><span class="refs"><a class="ref" href="#src-2">[2]</a></span></div>
+						<blockquote lang="en"><p>Replacing the file behind an ID updates every entry that references it. Alt text and captions stay with the entry.</p></blockquote>
+						<figcaption class="source-line">[公式] 公式資料 A（架空） · 記事の欄と参照 · <time datetime="2026-09-30">2026-09-30</time> 公開 · <a href="#src-2">↗ 原典</a></figcaption>
+						<div class="translation" data-part="block-translation">
+							<div class="block-head"><span class="chip">翻訳・自動生成</span><span class="refs"><a class="ref" href="#src-2">[2]</a></span></div>
+							<p>ID の裏のファイルを差し替えると、それを参照する記事がすべて新しいものになる。代替テキストと説明文は記事の側に残る。</p>
+						</div>
+					</figure>
+					<aside class="block block-summary" data-part="block-summary" data-source-type="official" aria-label="要約">
+						<div class="block-head"><span class="badge">公式</span><span class="chip">要約・自動生成</span><span class="refs"><a class="ref" href="#src-1">[1]</a><a class="ref" href="#src-2">[2]</a></span></div>
+						<p>置き場は 1 か所、記事は ID で呼ぶ。差し替えはライブラリで 1 回やれば、参照している記事すべてに効く。代替テキストは記事ごとに持つ。</p>
+					</aside>
+					<aside class="block block-gikou" data-part="block-gikou" data-source-type="gikou_media" aria-label="GIKOU Media の見解">
+						<div class="block-head"><span class="badge">GIKOU Media</span><span class="chip">自動生成（GIKOU Media）</span><span class="refs"><a class="ref" href="#src-1">[1]</a><a class="ref" href="#src-2">[2]</a></span></div>
+						<p>差し替えを 1 回で済ませたいなら、記事の本文に画像の場所を直に書かないことが先。移行のときに本文へ埋まった場所を ID に置き換える作業が、いちばん手間がかかる。</p>
+					</aside>
+					<h2>記事からは参照で呼ぶ</h2>
+					<figure class="block block-source" data-part="block-source" data-source-type="unofficial">
+						<div class="block-head"><span class="badge">非公式</span><span class="chip">原文</span><span class="refs"><a class="ref" href="#src-3">[3]</a></span></div>
+						<blockquote lang="en"><p>After swapping an image, the old URL kept working for a while because it was cached at the edge. Purging fixed it.</p></blockquote>
+						<figcaption class="source-line">[非公式] コミュニティの投稿（架空） · 画像を差し替えたら古い URL が残った件 · <time datetime="2026-10-12">2026-10-12</time> 公開 · <a href="#src-3">↗ 原典</a></figcaption>
+						<div class="translation" data-part="block-translation">
+							<div class="block-head"><span class="chip">翻訳・自動生成</span><span class="refs"><a class="ref" href="#src-3">[3]</a></span></div>
+							<p>画像を差し替えたあと、古い URL がしばらく生きていた。手前のキャッシュに残っていたためで、消したら直った。</p>
+						</div>
+					</figure>
+					<aside class="block block-summary" data-part="block-summary" data-source-type="unofficial" aria-label="要約">
+						<div class="block-head"><span class="badge">非公式</span><span class="chip">要約・自動生成</span><span class="refs"><a class="ref" href="#src-3">[3]</a></span></div>
+						<p>差し替えた直後は、手前のキャッシュに古い画像が残ることがある、という報告。</p>
+					</aside>
+					<aside class="block block-summary" data-part="block-summary" data-source-type="official" aria-label="要約">
+						<div class="block-head"><span class="badge">公式</span><span class="chip">要約・自動生成</span><span class="refs"><a class="ref" href="#src-4">[4]</a></span></div>
+						<p>v0.9 から、どの記事からも参照されていないメディアを一覧で見られる。</p>
+					</aside>
+					<aside class="block block-gikou" data-part="block-gikou" data-source-type="gikou_media" aria-label="GIKOU Media の見解">
+						<div class="block-head"><span class="badge">GIKOU Media</span><span class="chip">自動生成（GIKOU Media）</span><span class="refs"><a class="ref" href="#src-3">[3]</a><a class="ref" href="#src-4">[4]</a></span></div>
+						<p>参照で呼べば差し替えは効くが、見た目に出るまでの時間は別の話。差し替えの手順にキャッシュを消す 1 行を入れておく。</p>
+						<p>使われていないメディアの一覧は、次の段の「消す前に確かめる」で使う。</p>
+					</aside>
+					<h2>古い版を消す前に</h2>
+					<figure class="block block-source" data-part="block-source" data-source-type="official">
+						<div class="block-head"><span class="badge">公式</span><span class="chip">原文</span><span class="refs"><a class="ref" href="#src-5">[5]</a></span></div>
+						<blockquote lang="en"><p>Deleting a media file that is still referenced is blocked. Files with no references can be deleted from the library view.</p></blockquote>
+						<figcaption class="source-line">[公式] 公式資料 A（架空） · メディアを消すとき · <time datetime="2026-09-30">2026-09-30</time> 公開 · <a href="#src-5">↗ 原典</a></figcaption>
+						<div class="translation" data-part="block-translation">
+							<div class="block-head"><span class="chip">翻訳・自動生成</span><span class="refs"><a class="ref" href="#src-5">[5]</a></span></div>
+							<p>まだ参照されているメディアは消せない。参照の無いファイルは、ライブラリの画面から消せる。</p>
+						</div>
+					</figure>
+					<figure class="block block-source" data-part="block-source" data-source-type="unofficial">
+						<div class="block-head"><span class="badge">非公式</span><span class="chip">原文</span><span class="refs"><a class="ref" href="#src-6">[6]</a></span></div>
+						<blockquote lang="en"><p>We cleaned up about a thousand orphaned images after the migration, but a few were linked from outside the site.</p></blockquote>
+						<figcaption class="source-line">[非公式] 個人の技術ブログ（架空） · 移行のあとに画像を片付けた記録 · <time datetime="2026-10-02">2026-10-02</time> 公開 · <a href="#src-6">↗ 原典</a></figcaption>
+						<div class="translation" data-part="block-translation">
+							<div class="block-head"><span class="chip">翻訳・自動生成</span><span class="refs"><a class="ref" href="#src-6">[6]</a></span></div>
+							<p>移行のあと、参照されていない画像を千枚ほど片付けた。ただし数枚は、サイトの外からリンクされていた。</p>
+						</div>
+					</figure>
+					<aside class="block block-summary" data-part="block-summary" data-source-type="unofficial" aria-label="要約">
+						<div class="block-head"><span class="badge">非公式</span><span class="chip">要約・自動生成</span><span class="refs"><a class="ref" href="#src-6">[6]</a></span></div>
+						<p>サイトの中で参照が無くても、外からリンクされている画像がある、という記録。</p>
+					</aside>
+					<h2>本誌の見方</h2>
+					<aside class="block block-gikou" data-part="block-gikou" data-source-type="gikou_media" aria-label="GIKOU Media の見解">
+						<div class="block-head"><span class="badge">GIKOU Media</span><span class="chip">自動生成（GIKOU Media）</span><span class="refs"><a class="ref" href="#src-1">[1]</a><a class="ref" href="#src-4">[4]</a><a class="ref" href="#src-5">[5]</a><a class="ref" href="#src-6">[6]</a></span></div>
+						<p>置き場を 1 つにし、記事は参照で呼び、消す前に参照の無いものだけを選ぶ。3 つの段はそれぞれ公式の仕組みで足りるが、サイトの外からのリンクは仕組みの外にある。</p>
+						<p>消す前に、外から呼ばれていないかをアクセスの記録で 1 回見る。これが手で残る唯一の確認になる。</p>
+					</aside>
+				</div>
+
+				<section class="sources" data-part="sources" aria-labelledby="sources-title">
+					<h2 id="sources-title">出典</h2>
+					<ol>
+						<li id="src-1" data-source-type="official">
+							<span class="num">[1]</span>
+							<div>
+								<div class="src-main"><span class="badge">公式</span><b>公式資料 A（架空）</b><span>メディアの置き場</span></div>
+								<div class="src-dates"><time datetime="2026-09-30">2026-09-30</time> 公開 · <time datetime="2026-10-21">2026-10-21</time> 確認 · 原典の場所は CMS が持つ</div>
+							</div>
+						</li>
+						<li id="src-2" data-source-type="official">
+							<span class="num">[2]</span>
+							<div>
+								<div class="src-main"><span class="badge">公式</span><b>公式資料 A（架空）</b><span>記事の欄と参照</span></div>
+								<div class="src-dates"><time datetime="2026-09-30">2026-09-30</time> 公開 · <time datetime="2026-10-21">2026-10-21</time> 確認 · 原典の場所は CMS が持つ</div>
+							</div>
+						</li>
+						<li id="src-3" data-source-type="unofficial">
+							<span class="num">[3]</span>
+							<div>
+								<div class="src-main"><span class="badge">非公式</span><b>コミュニティの投稿（架空）</b><span>画像を差し替えたら古い URL が残った件</span></div>
+								<div class="src-dates"><time datetime="2026-10-12">2026-10-12</time> 公開 · <time datetime="2026-10-21">2026-10-21</time> 確認 · 原典の場所は CMS が持つ</div>
+							</div>
+						</li>
+						<li id="src-4" data-source-type="official">
+							<span class="num">[4]</span>
+							<div>
+								<div class="src-main"><span class="badge">公式</span><b>公式の変更履歴（架空）</b><span>v0.9：使われていないメディアの一覧</span></div>
+								<div class="src-dates"><time datetime="2026-10-08">2026-10-08</time> 公開 · <time datetime="2026-10-21">2026-10-21</time> 確認 · 原典の場所は CMS が持つ</div>
+							</div>
+						</li>
+						<li id="src-5" data-source-type="official">
+							<span class="num">[5]</span>
+							<div>
+								<div class="src-main"><span class="badge">公式</span><b>公式資料 A（架空）</b><span>メディアを消すとき</span></div>
+								<div class="src-dates"><time datetime="2026-09-30">2026-09-30</time> 公開 · <time datetime="2026-10-21">2026-10-21</time> 確認 · 原典の場所は CMS が持つ</div>
+							</div>
+						</li>
+						<li id="src-6" data-source-type="unofficial">
+							<span class="num">[6]</span>
+							<div>
+								<div class="src-main"><span class="badge">非公式</span><b>個人の技術ブログ（架空）</b><span>移行のあとに画像を片付けた記録</span></div>
+								<div class="src-dates"><time datetime="2026-10-02">2026-10-02</time> 公開 · <time datetime="2026-10-21">2026-10-21</time> 確認 · 原典の場所は CMS が持つ</div>
+							</div>
+						</li>
+					</ol>
+				</section>
+			</article>
+
+			<section class="related" data-part="related" aria-labelledby="related-title">
+				<h2 class="section-headline" id="related-title">関連記事</h2>
+				<ul class="card-list">
+					<li>
+						<article class="card" data-part="article-card">
+							<a href="article.html" tabindex="-1" aria-hidden="true"><img class="card-image" src="img/panorama.svg" alt="" width="2100" height="700" loading="lazy" /></a>
+							<div class="meta"><time datetime="2026-10-20">2026-10-20</time></div>
+							<h3 class="card-title"><a href="article.html">検索の索引を夜にまとめて作り直す</a></h3>
+							<p class="card-dek">記事を直すたびに索引を作ると重くなる。夜に 1 回まとめて作り直し、昼は差分だけを足す。その切り替えの目安と、作り直しが失敗したときに前の索引へ戻す手順。</p>
+							<ul class="tags" aria-label="タグ">
+								<li><a class="tag" href="tag.html">運用</a></li>
+								<li><a class="tag" href="tag.html">検索</a></li>
+							</ul>
+						</article>
+					</li>
+					<li>
+						<article class="card" data-part="article-card">
+							<div class="meta"><time datetime="2026-10-10">2026-10-10</time></div>
+							<h3 class="card-title"><a href="article.html">メニューを編集画面から並べ替える</a></h3>
+							<p class="card-dek">コードに触らずにナビの順を変える。</p>
+							<ul class="tags" aria-label="タグ">
+								<li><a class="tag" href="tag.html">運用</a></li>
+								<li><a class="tag" href="tag.html">メニュー</a></li>
+							</ul>
+						</article>
+					</li>
+					<li>
+						<article class="card" data-part="article-card">
+							<a href="article.html" tabindex="-1" aria-hidden="true"><img class="card-image" src="img/square.svg" alt="" width="1200" height="1200" loading="lazy" /></a>
+							<div class="meta"><time datetime="2026-10-06">2026-10-06</time></div>
+							<h3 class="card-title"><a href="article.html">ログインの入口を 2 段にする：管理画面の前に門を置く</a></h3>
+							<p class="card-dek">管理画面のログインの手前に、名前を絞った門を 1 つ置く。門だけで守らず、中のログインも残す。</p>
+							<ul class="tags" aria-label="タグ">
+								<li><a class="tag" href="tag.html">認証</a></li>
+								<li><a class="tag" href="tag.html">管理画面</a></li>
+							</ul>
+						</article>
+					</li>
+				</ul>
+			</section>
+		</main>
+
+		<footer class="site-footer" data-part="site-footer">
+			<div class="footer-content">
+				<div class="footer-brand">
+					<span class="footer-logo">GIKOU</span>
+					<p class="footer-tagline">ここにサイトの一言が入る（設定から）</p>
+				</div>
+				<div class="footer-links">
+					<a href="index.html">トップ</a>
+					<a href="#">手がけているもの</a>
+					<a href="index.html#articles">記事</a>
+					<a href="#">プライバシーポリシー</a>
+				</div>
+			</div>
+			<p class="footer-note">このサイトの記事には自動生成の文章が含まれます（要約・翻訳・GIKOU Media の見解）。引用した内容は原典が正本です。</p>
+			<div class="footer-bottom">
+				<p>&copy; 2026 GIKOU</p>
+				<p>EmDash で動いています</p>
+			</div>
+		</footer>
+	</body>
+</html>

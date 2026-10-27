@@ -1,0 +1,103 @@
+<!doctype html>
+<!-- M' のモック（CMS 抜き）。記事・出典・告知の文はすべて架空 -->
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="robots" content="noindex" />
+		<title>運用 の記事 — GIKOU</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header class="site-header" data-part="site-header">
+			<nav class="nav" aria-label="サイト">
+				<a href="index.html" class="site-logo">GIKOU</a>
+				<div class="nav-links">
+				<a href="index.html">トップ</a>
+				<a href="#">手がけているもの</a>
+				<a href="index.html#articles" aria-current="page">記事</a>
+				</div>
+			</nav>
+		</header>
+
+		<main>
+			<div class="container">
+				<header class="tag-header" data-part="tag-header">
+					<p class="breadcrumb"><a href="index.html#articles">記事</a> ／ タグ</p>
+					<h1>運用</h1>
+					<p>4 本。ここにタグの短い説明が 1 行入る。</p>
+				</header>
+				<section data-part="article-list" aria-label="運用 の記事">
+					<ul class="card-list">
+						<li>
+							<article class="card" data-part="article-card">
+								<a href="article.html" tabindex="-1" aria-hidden="true"><img class="card-image" src="img/wide.svg" alt="" width="1600" height="900" loading="lazy" /></a>
+								<div class="meta"><time datetime="2026-10-24">2026-10-24</time></div>
+								<h2 class="card-title"><a href="article.html">画像の差し替えを 1 か所で済ませる：置き場・参照・古い版の扱い</a></h2>
+								<p class="card-dek">記事ごとに画像を貼り直さないために、置き場を 1 つにして参照で呼ぶ。古い版を消す前に確かめること。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">画像</a></li>
+									<li><a class="tag" href="tag.html">運用</a></li>
+									<li><a class="tag" href="tag.html">移行</a></li>
+								</ul>
+							</article>
+						</li>
+						<li>
+							<article class="card" data-part="article-card">
+								<div class="meta"><time datetime="2026-10-22">2026-10-22</time></div>
+								<h2 class="card-title"><a href="article.html">下書きを人に見せる</a></h2>
+								<p class="card-dek">公開前の記事を、ログインしない人に期限付きで見せる。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">運用</a></li>
+								</ul>
+							</article>
+						</li>
+						<li>
+							<article class="card" data-part="article-card">
+								<a href="article.html" tabindex="-1" aria-hidden="true"><img class="card-image" src="img/panorama.svg" alt="" width="2100" height="700" loading="lazy" /></a>
+								<div class="meta"><time datetime="2026-10-20">2026-10-20</time></div>
+								<h2 class="card-title"><a href="article.html">検索の索引を夜にまとめて作り直す</a></h2>
+								<p class="card-dek">記事を直すたびに索引を作ると重くなる。夜に 1 回まとめて作り直し、昼は差分だけを足す。その切り替えの目安と、作り直しが失敗したときに前の索引へ戻す手順。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">運用</a></li>
+									<li><a class="tag" href="tag.html">検索</a></li>
+								</ul>
+							</article>
+						</li>
+						<li>
+							<article class="card" data-part="article-card">
+								<div class="meta"><time datetime="2026-10-10">2026-10-10</time></div>
+								<h2 class="card-title"><a href="article.html">メニューを編集画面から並べ替える</a></h2>
+								<p class="card-dek">コードに触らずにナビの順を変える。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">運用</a></li>
+									<li><a class="tag" href="tag.html">メニュー</a></li>
+								</ul>
+							</article>
+						</li>
+					</ul>
+				</section>
+			</div>
+		</main>
+
+		<footer class="site-footer" data-part="site-footer">
+			<div class="footer-content">
+				<div class="footer-brand">
+					<span class="footer-logo">GIKOU</span>
+					<p class="footer-tagline">ここにサイトの一言が入る（設定から）</p>
+				</div>
+				<div class="footer-links">
+					<a href="index.html">トップ</a>
+					<a href="#">手がけているもの</a>
+					<a href="index.html#articles">記事</a>
+					<a href="#">プライバシーポリシー</a>
+				</div>
+			</div>
+			<p class="footer-note">このサイトの記事には自動生成の文章が含まれます（要約・翻訳・GIKOU Media の見解）。引用した内容は原典が正本です。</p>
+			<div class="footer-bottom">
+				<p>&copy; 2026 GIKOU</p>
+				<p>EmDash で動いています</p>
+			</div>
+		</footer>
+	</body>
+</html>

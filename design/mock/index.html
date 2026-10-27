@@ -1,0 +1,157 @@
+<!doctype html>
+<!-- M' のモック（CMS 抜き）。記事・出典・告知の文はすべて架空 -->
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="robots" content="noindex" />
+		<title>GIKOU</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header class="site-header" data-part="site-header">
+			<nav class="nav" aria-label="サイト">
+				<a href="index.html" class="site-logo">GIKOU</a>
+				<div class="nav-links">
+				<a href="index.html" aria-current="page">トップ</a>
+				<a href="#">手がけているもの</a>
+				<a href="index.html#articles">記事</a>
+				</div>
+			</nav>
+		</header>
+
+		<aside class="notice" data-part="notice" aria-label="告知">
+			<div class="container">
+				<span class="notice-label">告知</span>
+				<time datetime="2026-10-27">2026-10-27</time>
+				<span>ここに更新される告知が 1 行入る。期限が来たら外す。</span>
+				<a href="article.html">詳しく</a>
+			</div>
+		</aside>
+
+		<main>
+			<div class="container">
+				<section class="section" data-part="intro" aria-labelledby="intro-title">
+					<div class="intro">
+						<div>
+							<p class="intro-kicker">GIKOU について</p>
+							<h2 class="intro-title" id="intro-title">自己紹介の見出し</h2>
+						</div>
+						<div class="intro-body">
+							<p>ここに GIKOU の自己紹介が 2〜3 行入る。固定の枠で、記事が増えても位置は変わらない。</p>
+							<p><a href="#">手がけているもの</a>への導線を 1 つ置く。</p>
+						</div>
+					</div>
+				</section>
+
+				<section class="section" id="articles" data-part="article-list" aria-labelledby="articles-title">
+					<h2 class="section-headline" id="articles-title">記事</h2>
+					<ul class="card-list">
+						<li>
+							<article class="card" data-part="article-card">
+								<a href="article.html" tabindex="-1" aria-hidden="true"><img class="card-image" src="img/wide.svg" alt="" width="1600" height="900" loading="lazy" /></a>
+								<div class="meta"><time datetime="2026-10-24">2026-10-24</time></div>
+								<h3 class="card-title"><a href="article.html">画像の差し替えを 1 か所で済ませる：置き場・参照・古い版の扱い</a></h3>
+								<p class="card-dek">記事ごとに画像を貼り直さないために、置き場を 1 つにして参照で呼ぶ。古い版を消す前に確かめること。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">画像</a></li>
+									<li><a class="tag" href="tag.html">運用</a></li>
+									<li><a class="tag" href="tag.html">移行</a></li>
+								</ul>
+							</article>
+						</li>
+						<li>
+							<article class="card" data-part="article-card">
+								<div class="meta"><time datetime="2026-10-22">2026-10-22</time></div>
+								<h3 class="card-title"><a href="article.html">下書きを人に見せる</a></h3>
+								<p class="card-dek">公開前の記事を、ログインしない人に期限付きで見せる。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">運用</a></li>
+								</ul>
+							</article>
+						</li>
+						<li>
+							<article class="card" data-part="article-card">
+								<a href="article.html" tabindex="-1" aria-hidden="true"><img class="card-image" src="img/panorama.svg" alt="" width="2100" height="700" loading="lazy" /></a>
+								<div class="meta"><time datetime="2026-10-20">2026-10-20</time></div>
+								<h3 class="card-title"><a href="article.html">検索の索引を夜にまとめて作り直す</a></h3>
+								<p class="card-dek">記事を直すたびに索引を作ると重くなる。夜に 1 回まとめて作り直し、昼は差分だけを足す。その切り替えの目安と、作り直しが失敗したときに前の索引へ戻す手順。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">運用</a></li>
+									<li><a class="tag" href="tag.html">検索</a></li>
+								</ul>
+							</article>
+						</li>
+						<li>
+							<article class="card" data-part="article-card">
+								<div class="meta"><time datetime="2026-10-17">2026-10-17</time></div>
+								<h3 class="card-title"><a href="article.html">プラグインを入れる前に読むところ：権限の申告・保存の場所・外への通信・止めたときに残るもの・入れ替えの手順</a></h3>
+								<p class="card-dek">入れる前に 5 つを読む。入れた後で気づくと、止めても表やファイルが残る。申告された権限と実際の動きが合っているかを、手元で 1 回動かして確かめる。読む順と、確かめる道具の置き場。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">プラグイン</a></li>
+									<li><a class="tag" href="tag.html">認証</a></li>
+									<li><a class="tag" href="tag.html">移行</a></li>
+									<li><a class="tag" href="tag.html">公開</a></li>
+								</ul>
+							</article>
+						</li>
+						<li>
+							<article class="card" data-part="article-card">
+								<a href="article.html" tabindex="-1" aria-hidden="true"><img class="card-image" src="img/tall.svg" alt="" width="900" height="1200" loading="lazy" /></a>
+								<div class="meta"><time datetime="2026-10-15">2026-10-15</time></div>
+								<h3 class="card-title"><a href="article.html">予約公開</a></h3>
+								<p class="card-dek">日時を決めて出す。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">公開</a></li>
+								</ul>
+							</article>
+						</li>
+						<li>
+							<article class="card" data-part="article-card">
+								<div class="meta"><time datetime="2026-10-10">2026-10-10</time></div>
+								<h3 class="card-title"><a href="article.html">メニューを編集画面から並べ替える</a></h3>
+								<p class="card-dek">コードに触らずにナビの順を変える。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">運用</a></li>
+									<li><a class="tag" href="tag.html">メニュー</a></li>
+								</ul>
+							</article>
+						</li>
+						<li>
+							<article class="card" data-part="article-card">
+								<a href="article.html" tabindex="-1" aria-hidden="true"><img class="card-image" src="img/square.svg" alt="" width="1200" height="1200" loading="lazy" /></a>
+								<div class="meta"><time datetime="2026-10-06">2026-10-06</time></div>
+								<h3 class="card-title"><a href="article.html">ログインの入口を 2 段にする：管理画面の前に門を置く</a></h3>
+								<p class="card-dek">管理画面のログインの手前に、名前を絞った門を 1 つ置く。門だけで守らず、中のログインも残す。</p>
+								<ul class="tags" aria-label="タグ">
+									<li><a class="tag" href="tag.html">認証</a></li>
+									<li><a class="tag" href="tag.html">管理画面</a></li>
+								</ul>
+							</article>
+						</li>
+					</ul>
+				</section>
+			</div>
+		</main>
+
+		<footer class="site-footer" data-part="site-footer">
+			<div class="footer-content">
+				<div class="footer-brand">
+					<span class="footer-logo">GIKOU</span>
+					<p class="footer-tagline">ここにサイトの一言が入る（設定から）</p>
+				</div>
+				<div class="footer-links">
+					<a href="index.html">トップ</a>
+					<a href="#">手がけているもの</a>
+					<a href="index.html#articles">記事</a>
+					<a href="#">プライバシーポリシー</a>
+				</div>
+			</div>
+			<p class="footer-note">このサイトの記事には自動生成の文章が含まれます（要約・翻訳・GIKOU Media の見解）。引用した内容は原典が正本です。</p>
+			<div class="footer-bottom">
+				<p>&copy; 2026 GIKOU</p>
+				<p>EmDash で動いています</p>
+			</div>
+		</footer>
+	</body>
+</html>

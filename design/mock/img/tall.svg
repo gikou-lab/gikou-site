@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200" role="img" aria-label="仮の画像 3:4">
+  <rect width="900" height="1200" fill="#e8f1fc"/>
+  <path d="M0 0L900 1200M900 0L0 1200" stroke="#7cb8f0" stroke-width="4"/>
+  <rect x="2" y="2" width="896" height="1196" fill="none" stroke="#7cb8f0" stroke-width="4"/>
+  <text x="50%" y="50%" dy="0.35em" text-anchor="middle" font-family="sans-serif" font-size="150" fill="#164a94">3:4</text>
+</svg>
