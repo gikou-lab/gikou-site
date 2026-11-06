@@ -11,7 +11,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
-    "check-links": "node scripts/check-links.mjs"
+    "check-links": "node scripts/check-links.mjs",
+    "check-security-txt": "node scripts/check-security-txt.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.1",
