@@ -31,6 +31,8 @@ jobs:
         with:
           path: node_modules/.astro/fonts
           key: astro-fonts-${{ hashFiles('astro.config.mjs') }}
+      # /.well-known/security.txt の Expires を見張る（切れる 30 日前から落ちる）
+      - run: pnpm check-security-txt
       - run: pnpm typecheck
       - run: pnpm build
         env:

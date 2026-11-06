@@ -1,0 +1,6 @@
+# gikou.dev の脆弱性の知らせ先（RFC 9116）
+# 鍵の値・PoC・個人のデータは本文に書かず、「どこに何がある」まででやり取りを始めてください。
+# 返事の目安：受領 3 日・最初の見立て 7 日（暦日）。
+Contact: mailto:security@gikou.dev
+Expires: 2027-11-06T00:00:00.000Z
+Preferred-Languages: ja, en
