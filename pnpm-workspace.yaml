@@ -22,3 +22,10 @@ overrides:
   "undici@>=7 <7.30.1": "^7.30.1"
   "hono@<4.13.16": "^4.13.16"
   "@hono/node-server@>=2 <2.1.6": "^2.1.6"
+
+# picomatch の ReDoS（GHSA-fc5q-39xc-vjpf・high）は直った版がまだ無い（<=4.0.7 が対象・npm の最新が 4.0.7）。
+# 本番では @astrojs/react の固定の include/exclude にだけ使い、外からパターンは渡らない。
+# 4.0.8 以上が出たら、この行を外して版を上げる（慎太郎さん・2026-11-18 承認）
+auditConfig:
+  ignoreGhsas:
+    - GHSA-fc5q-39xc-vjpf
