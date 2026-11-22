@@ -39,6 +39,9 @@
       "Bash(gh api *--field*)",
       "Bash(gh api *--raw-field*)",
       "Bash(gh api *--input*)"
+    ],
+    "allow": [
+      "Bash(/Users/shinbigan/gikou-indexer/scripts/usage-week.sh)"
     ]
   },
   "sandbox": {
@@ -56,7 +59,8 @@
       "gh issue view *",
       "gh issue list*",
       "gh issue comment *",
-      "gh api repos/*"
+      "gh api repos/*",
+      "/Users/shinbigan/gikou-indexer/scripts/usage-week.sh"
     ],
     "filesystem": {
       "allowWrite": [
