@@ -1,6 +1,6 @@
 // 請求が青天井になる形がリポジトリに入ったら落ちる見張り。
 // 使い方: node scripts/check-cost-shapes.mjs            今のツリーを見る
-//         node scripts/check-cost-shapes.mjs --self-test 5 つの決まりがわざと当たる文字列で落ちるかを確かめる
+//         node scripts/check-cost-shapes.mjs --self-test 決まりがわざと当たる文字列で落ちるかを確かめる
 //
 // Cloudflare には請求額で止める設定が無い。入ってから探すのでは遅いので、形で止める。
 // 見つけたら 1 件 1 行で「決まり ファイル:行 説明」を出し、1 で終わる。
@@ -13,6 +13,18 @@ const SELF = fileURLToPath(import.meta.url);
 const ROOT = join(SELF, "..", "..");
 const CODE_EXT = /\.(?:[cm]?[jt]sx?|astro)$/;
 const SITE_HOSTS = /EMDASH_SITE_URL|gikou\.dev/;
+
+// 今の契約。Paid に上げる回で "paid" に変える。この 1 語で決まり (1) の向きが変わる
+const PLAN = "free";
+
+const RULES = [
+	"1-limits-on-free",
+	"1-no-limits-on-paid",
+	"2-queue-loop",
+	"3-do-alarm",
+	"4-self-fetch",
+	"5-unbounded-retry",
+];
 
 // JSONC のコメントと末尾のカンマを、文字列の中を壊さずに外す（行の数は変えない）
 function stripJsonc(text) {
@@ -56,7 +68,7 @@ function matching(text, open) {
 	return text.length;
 }
 
-function checkWrangler(path, text) {
+function checkWrangler(path, text, plan) {
 	const hits = [];
 	let config;
 	try {
@@ -64,9 +76,22 @@ function checkWrangler(path, text) {
 	} catch (e) {
 		return [{ rule: "wrangler-parse", path, line: 1, message: `JSONC として読めない: ${e.message}` }];
 	}
-	// (1) limits が無いと、Paid に上げた時に subrequests の上限が黙って 10,000 へ広がる
-	if (!config.limits) {
-		hits.push({ rule: "1-no-limits", path, line: 1, message: "limits が無い（subrequests の上限を書く）" });
+	// (1) 契約と limits は組で動く。Free で書くと deploy が API に蹴られ、Paid で書かないと上限が広がる
+	if (plan === "free" && config.limits) {
+		hits.push({
+			rule: "1-limits-on-free",
+			path,
+			line: keyLine(text, "limits"),
+			message: "無料プランなのに limits がある（deploy が CPU limits are not supported for the Free plan・code 100328 で落ちる）",
+		});
+	}
+	if (plan === "paid" && config.limits?.subrequests === undefined) {
+		hits.push({
+			rule: "1-no-limits-on-paid",
+			path,
+			line: 1,
+			message: "Paid なのに limits.subrequests が無い（上限が既定の 50 から 10,000 へ黙って広がる）",
+		});
 	}
 	// (2) 同じ Worker が Queue の作り手と受け手を兼ねると、受け手が送り直す輪が止まらない
 	const envs = [config, ...Object.values(config.env ?? {})];
@@ -132,10 +157,10 @@ function walk(dir) {
 }
 
 // files: { "相対パス": 中身 }。ファイルを読む所と分けて、self-test が同じ道を通るようにする
-export function check(files) {
+export function check(files, plan = PLAN) {
 	const hits = [];
 	for (const [path, text] of Object.entries(files)) {
-		if (path === "wrangler.jsonc") hits.push(...checkWrangler(path, text));
+		if (path === "wrangler.jsonc") hits.push(...checkWrangler(path, text, plan));
 		else if (CODE_EXT.test(path) && /^(src|scripts)\//.test(path)) {
 			hits.push(...checkCode(path, text, { inSrc: path.startsWith("src/") }));
 		}
@@ -155,30 +180,35 @@ function readTree(root) {
 }
 
 function selfTest() {
-	const okWrangler = `{
+	// Free は limits を書かない・Paid は書く。どちらも当たらないのが正しい形
+	const freeWrangler = `{
 	// コメントの "https://gikou.dev" は読まない
 	"name": "x",
-	"limits": { "subrequests": 50, },
 	"queues": { "producers": [{ "binding": "Q", "queue": "q" }] },
 }`;
-	const okFiles = {
-		"wrangler.jsonc": okWrangler,
+	const paidWrangler = `{
+	"name": "x",
+	"limits": { "subrequests": 50, },
+}`;
+	const okCode = {
 		"src/worker.ts": `export default { fetch(req, env) { return fetch("https://example.com/"); } };`,
 		"scripts/retry.mjs": `for (let i = 0; i < 3; i++) { await fetch(url); }\nwhile (true) { if (done()) break; }`,
 	};
+	// [決まり, 足す見本, 契約, 土台の wrangler]
 	const cases = [
-		["1-no-limits", { "wrangler.jsonc": `{ "name": "x" }` }],
+		["1-limits-on-free", { "wrangler.jsonc": paidWrangler }, "free"],
+		["1-no-limits-on-paid", { "wrangler.jsonc": freeWrangler }, "paid"],
 		[
 			"2-queue-loop",
 			{
 				"wrangler.jsonc": `{
-	"limits": { "subrequests": 50 },
 	"queues": {
 		"producers": [{ "binding": "Q", "queue": "q" }],
 		"consumers": [{ "queue": "q" }],
 	},
 }`,
 			},
+			"free",
 		],
 		["3-do-alarm", { "src/counter.ts": `export class Counter {\n\tasync alarm() {\n\t\tawait this.ctx.storage.setAlarm(Date.now());\n\t}\n}` }],
 		["4-self-fetch", { "src/a.ts": `await fetch(new URL("/api", env.EMDASH_SITE_URL));` }],
@@ -188,25 +218,32 @@ function selfTest() {
 	];
 
 	const failures = [];
-	const okHits = check(okFiles);
-	if (okHits.length > 0) failures.push(`当たらないはずの見本で当たった: ${okHits.map((h) => h.rule).join(", ")}`);
-	for (const [rule, extra] of cases) {
-		const hits = check({ "wrangler.jsonc": okWrangler, ...extra });
+	for (const [plan, wrangler] of [
+		["free", freeWrangler],
+		["paid", paidWrangler],
+	]) {
+		const okHits = check({ "wrangler.jsonc": wrangler, ...okCode }, plan);
+		if (okHits.length > 0) failures.push(`${plan}: 当たらないはずの見本で当たった: ${okHits.map((h) => h.rule).join(", ")}`);
+	}
+	for (const [rule, extra, plan = "free"] of cases) {
+		const base = plan === "paid" ? paidWrangler : freeWrangler;
+		const hits = check({ "wrangler.jsonc": base, ...extra }, plan);
 		const code = exitCode(hits);
 		if (code === 0 || !hits.some((h) => h.rule === rule)) {
-			failures.push(`${rule}: 当たるはずの見本で ${code} になった（当たり: ${hits.map((h) => h.rule).join(", ") || "なし"}）`);
+			failures.push(`${rule}（${plan}）: 当たるはずの見本で ${code} になった（当たり: ${hits.map((h) => h.rule).join(", ") || "なし"}）`);
 		} else {
-			console.log(`ok ${rule}: 終わりの番号 ${code}・${format(hits[0])}`);
+			console.log(`ok ${rule}（${plan}）: 終わりの番号 ${code}・${format(hits.find((h) => h.rule === rule))}`);
 		}
 	}
 	const covered = new Set(cases.map(([rule]) => rule));
-	if (covered.size !== 5) failures.push(`self-test が見ている決まりが ${covered.size} 個（5 個のはず）`);
+	const missing = RULES.filter((r) => !covered.has(r));
+	if (missing.length > 0) failures.push(`self-test が見ていない決まり: ${missing.join(", ")}`);
 
 	if (failures.length > 0) {
 		for (const f of failures) console.error(`NG ${f}`);
 		process.exit(1);
 	}
-	console.log("self-test: 5 つの決まりは全部当たり、当たらない見本は通った");
+	console.log(`self-test: ${RULES.length} つの決まりは全部当たり、当たらない見本は free・paid の両方で通った`);
 }
 
 const exitCode = (hits) => (hits.length > 0 ? 1 : 0);
