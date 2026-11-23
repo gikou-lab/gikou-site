@@ -33,9 +33,13 @@
 		{ "binding": "CACHE", "id": "d9efb031cc694f5f86deb9b2e40c835d" },
 		{ "binding": "SESSION", "id": "27e7469e69064c70b4e08d69deb2ba2f" },
 	],
-	// subrequests は無料の既定と同じ 50 に留める。書かないと Paid に上げた時に黙って 10,000 へ広がる（https://developers.cloudflare.com/workers/wrangler/configuration/#limits）
-	// cpu_ms は書かない。無料プランで書いた時に deploy がどうなるか文書に無いので、Paid に上げる時に確かめてから足す
-	"limits": { "subrequests": 50 },
+	// limits は無料プランでは書けない。subrequests だけ書いても wrangler は limits を API に送り、
+	// Cloudflare が「CPU limits are not supported for the Free plan」（code 100328）で deploy を蹴る
+	// （2026-11-24 に実際に 3 回落ちた。wrangler の schema にも Only supported for the "standard" Usage Model とある）。
+	// Paid に上げる回で、同じ回のうちに "limits": { "subrequests": 50 } を戻す。
+	// 戻さないと subrequests の上限が既定の 50 から 10,000 へ黙って広がる
+	// （https://developers.cloudflare.com/workers/wrangler/configuration/#limits）。
+	// scripts/check-cost-shapes.mjs の PLAN を "paid" にすると、戻し忘れを CI が止める
 	// Sandboxed plugins require Worker Loader, available on Workers paid plans. Uncomment to enable:
 	// "worker_loaders": [{ "binding": "LOADER" }],
 	// General maintenance cron trigger
