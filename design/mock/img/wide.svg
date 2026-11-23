@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="仮の画像 16:9">
+  <rect width="1600" height="900" fill="#e8f1fc"/>
+  <path d="M0 0L1600 900M1600 0L0 900" stroke="#7cb8f0" stroke-width="4"/>
+  <rect x="2" y="2" width="1596" height="896" fill="none" stroke="#7cb8f0" stroke-width="4"/>
+  <text x="50%" y="50%" dy="0.35em" text-anchor="middle" font-family="sans-serif" font-size="112" fill="#164a94">16:9</text>
+</svg>

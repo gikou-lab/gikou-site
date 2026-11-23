@@ -1,0 +1,685 @@
+/*
+  style.css — M' のモック 3 ページに共通の 1 枚。JavaScript・Web フォント・外部参照なし。
+
+  色と文字の値は gikou-lab/gikou-marketing の press/src/styles/tokens.css（GIKOU Media Design Token）から。
+  右の `← --name` が元の変数名。大きさ・余白の段は今の gikou.dev（src/styles/tokens.css・theme.css）に揃える。
+  3 分類は「誰の言葉か」を「誰の色か」で示す。CSS は data-source-type だけ見て色を当てる（R-UI-4）。
+*/
+
+:root {
+	color-scheme: light;
+
+	/* 地と文字 */
+	--color-bg: #ffffff; /* ← --paper */
+	--color-text: #1a1c1f; /* ← --ink */
+	--color-muted: #3a3f47; /* ← --muted */
+	--color-border: #d9dce1; /* ← --line */
+	--color-surface: #f7f7f8; /* ← --canvas */
+	--color-brand: #164a94; /* ← --source-gikou-media-fg（--link も同じ値） */
+	--color-brand-soft: #7cb8f0; /* ← --source-gikou-media-light */
+	--color-brand-bg: #e8f1fc; /* ← --source-gikou-media-bg */
+
+	/* 書体：読み込まない。手元にある字だけで組む（← --font-sans・--font-mono） */
+	--font-body: "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+	/* 文字の大きさ・行の高さ（今の gikou.dev の段） */
+	--font-size-xs: 0.75rem;
+	--font-size-sm: 0.875rem;
+	--font-size-base: 1rem;
+	--font-size-lg: 1.125rem;
+	--font-size-xl: 1.25rem;
+	--font-size-2xl: 1.5rem;
+	--font-size-3xl: 2rem;
+	--leading-snug: 1.4;
+	--leading-normal: 1.7; /* ← --leading */
+
+	/* 余白 */
+	--spacing-xs: 0.25rem;
+	--spacing-sm: 0.5rem;
+	--spacing-md: 1rem;
+	--spacing-lg: 1.5rem;
+	--spacing-xl: 2rem;
+	--spacing-2xl: 3rem;
+	--spacing-3xl: 4rem;
+
+	/* 幅と角 */
+	--max-width: 720px;
+	--wide-width: 1200px;
+	--radius-sm: 4px; /* ← --radius */
+	--radius: 10px;
+}
+
+/* 3 分類の色（← press の tokens.css の同名の規則） */
+[data-source-type="official"] {
+	--sfg: #f38020; /* ← --source-official-fg */
+	--slight: #faae40; /* ← --source-official-light */
+	--sbg: #fef3e4; /* ← --source-official-bg */
+}
+[data-source-type="unofficial"] {
+	--sfg: #9ed9be; /* ← --source-unofficial-fg */
+	--slight: #cdeedd; /* ← --source-unofficial-light */
+	--sbg: #eef8f3; /* ← --source-unofficial-bg */
+}
+[data-source-type="gikou_media"] {
+	--sfg: #164a94; /* ← --source-gikou-media-fg */
+	--slight: #7cb8f0; /* ← --source-gikou-media-light */
+	--sbg: #e8f1fc; /* ← --source-gikou-media-bg */
+}
+
+/* 下地 */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: var(--font-body);
+	font-size: var(--font-size-base);
+	line-height: var(--leading-normal);
+	color: var(--color-text);
+	background: var(--color-bg);
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: currentColor;
+	text-decoration: none;
+}
+
+/* 文の中のリンクは GIKOU の青＋下線 */
+p a:not([class]),
+li a:not([class]) {
+	color: var(--color-brand);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+h1,
+h2,
+h3 {
+	font-weight: 700;
+	line-height: var(--leading-snug);
+}
+
+.container {
+	max-width: var(--wide-width);
+	margin: 0 auto;
+	padding: 0 var(--spacing-lg);
+}
+
+.section {
+	padding: var(--spacing-2xl) 0;
+}
+
+.section-headline {
+	font-size: var(--font-size-2xl);
+	margin-bottom: var(--spacing-lg);
+}
+
+/* 共通ヘッダー */
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	background: var(--color-bg);
+	border-bottom: 1px solid var(--color-border);
+}
+
+.nav {
+	max-width: var(--wide-width);
+	margin: 0 auto;
+	padding: var(--spacing-md) var(--spacing-lg);
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-lg);
+}
+
+.site-logo {
+	font-size: var(--font-size-xl);
+	font-weight: 700;
+	color: var(--color-brand);
+}
+
+.nav-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-lg);
+	margin-left: auto;
+}
+
+.nav-links a {
+	font-size: var(--font-size-sm);
+	font-weight: 500;
+	color: var(--color-muted);
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+	color: var(--color-text);
+}
+
+.nav-links a[aria-current="page"] {
+	text-decoration: underline;
+	text-underline-offset: 6px;
+}
+
+/* 告知バナー */
+.notice {
+	background: var(--color-brand-bg);
+	border-bottom: 1px solid var(--color-brand-soft);
+	font-size: var(--font-size-sm);
+}
+
+.notice .container {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--spacing-sm) var(--spacing-md);
+	padding-top: var(--spacing-sm);
+	padding-bottom: var(--spacing-sm);
+}
+
+.notice-label {
+	font-weight: 700;
+	color: var(--color-brand);
+}
+
+.notice a {
+	color: var(--color-brand);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+/* 自己紹介枠 */
+.intro {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: var(--spacing-xl);
+	padding: var(--spacing-xl);
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+.intro-title {
+	font-size: var(--font-size-2xl);
+}
+
+.intro-kicker {
+	font-size: var(--font-size-sm);
+	color: var(--color-muted);
+	margin-bottom: var(--spacing-xs);
+}
+
+.intro-body p + p {
+	margin-top: var(--spacing-sm);
+}
+
+/* 記事カード */
+.card-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+	gap: var(--spacing-xl) var(--spacing-lg);
+	list-style: none;
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	height: 100%;
+}
+
+.card-image {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	object-fit: cover;
+	border-radius: var(--radius-sm);
+	border: 1px solid var(--color-border);
+}
+
+/* 画像の無いカードは上に細い帯だけを置き、行の高さの揃いは文字で取る */
+.card:not(:has(.card-image)) {
+	border-top: 3px solid var(--color-brand);
+	padding-top: var(--spacing-sm);
+}
+
+.card-title {
+	font-size: var(--font-size-lg);
+}
+
+.card-title a:hover {
+	color: var(--color-brand);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.card-dek {
+	font-size: var(--font-size-sm);
+	color: var(--color-muted);
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--spacing-xs) var(--spacing-sm);
+	font-size: var(--font-size-xs);
+	color: var(--color-muted);
+}
+
+.meta time {
+	font-family: var(--font-mono);
+}
+
+.tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-xs);
+	list-style: none;
+}
+
+.tag {
+	display: inline-block;
+	border: 1px solid var(--color-border);
+	border-radius: 3px;
+	padding: 0 6px;
+	font-size: var(--font-size-xs);
+	color: var(--color-text);
+	background: var(--color-bg);
+}
+
+.tag:hover {
+	border-color: var(--color-brand);
+	color: var(--color-brand);
+}
+
+.more {
+	margin-top: var(--spacing-xl);
+	font-size: var(--font-size-sm);
+}
+
+.more a {
+	color: var(--color-brand);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+/* タグ別一覧の頭 */
+.breadcrumb {
+	font-size: var(--font-size-xs);
+	color: var(--color-muted);
+	margin-bottom: var(--spacing-sm);
+}
+
+.breadcrumb a {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.tag-header {
+	padding: var(--spacing-2xl) 0 var(--spacing-lg);
+	border-bottom: 1px solid var(--color-border);
+	margin-bottom: var(--spacing-xl);
+}
+
+.tag-header h1 {
+	font-size: var(--font-size-3xl);
+}
+
+.tag-header p {
+	margin-top: var(--spacing-sm);
+	color: var(--color-muted);
+	font-size: var(--font-size-sm);
+}
+
+/* 記事詳細 */
+.article {
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: var(--spacing-2xl) var(--spacing-lg) 0;
+}
+
+.article-header {
+	display: grid;
+	gap: var(--spacing-md);
+	margin-bottom: var(--spacing-xl);
+}
+
+.article-title {
+	font-size: var(--font-size-3xl);
+}
+
+.article-dek {
+	font-size: var(--font-size-lg);
+	color: var(--color-muted);
+	line-height: var(--leading-normal);
+}
+
+.article-hero {
+	border-radius: var(--radius-sm);
+	border: 1px solid var(--color-border);
+	margin-bottom: var(--spacing-xl);
+}
+
+.article-body > h2 {
+	font-size: var(--font-size-2xl);
+	margin: var(--spacing-2xl) 0 var(--spacing-md);
+	padding-bottom: var(--spacing-xs);
+	border-bottom: 1px solid var(--color-border);
+}
+
+.article-body > p {
+	margin: var(--spacing-md) 0;
+}
+
+/* 分類バッジとラベル（press の design/index.html の .badge・.chip） */
+.badge {
+	display: inline-flex;
+	align-items: center;
+	border: 1px solid var(--sfg);
+	background: var(--slight);
+	border-radius: var(--radius-sm);
+	padding: 0 8px;
+	font-size: var(--font-size-xs);
+	font-weight: 500;
+	color: var(--color-text);
+	white-space: nowrap;
+}
+
+.chip {
+	display: inline-block;
+	border: 1px solid var(--color-border);
+	border-radius: 3px;
+	padding: 0 6px;
+	font-size: var(--font-size-xs);
+	color: var(--color-text);
+	background: var(--color-bg);
+}
+
+/* 出典番号。押すと出典一覧の行へ */
+.ref {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-xs);
+	color: var(--color-brand);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	white-space: nowrap;
+}
+
+.refs {
+	display: inline-flex;
+	gap: var(--spacing-xs);
+	margin-left: auto;
+}
+
+/* 4 ブロック共通の箱：色は左の帯・地色・バッジ・ラベルで示す */
+.block {
+	border-left: 4px solid var(--sfg);
+	background: var(--sbg);
+	border-radius: 3px;
+	padding: var(--spacing-md) var(--spacing-lg);
+	margin: var(--spacing-lg) 0;
+}
+
+.block-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--spacing-xs) var(--spacing-sm);
+	margin-bottom: var(--spacing-sm);
+}
+
+.block p + p {
+	margin-top: var(--spacing-sm);
+}
+
+/* 原文は引用の形。訳は同じ箱の下に添える */
+.block-source blockquote {
+	font-size: var(--font-size-sm);
+	font-style: normal;
+	padding-left: var(--spacing-md);
+	border-left: 2px solid var(--slight);
+}
+
+.block-source blockquote::before {
+	content: "“";
+	font-weight: 700;
+	color: var(--sfg);
+	margin-right: 2px;
+}
+
+.block-source blockquote::after {
+	content: "”";
+	font-weight: 700;
+	color: var(--sfg);
+	margin-left: 2px;
+}
+
+.block-source .source-line {
+	margin-top: var(--spacing-sm);
+	font-size: var(--font-size-xs);
+	color: var(--color-muted);
+}
+
+.translation {
+	margin-top: var(--spacing-md);
+	padding-top: var(--spacing-sm);
+	border-top: 1px dashed var(--slight);
+}
+
+/* 要約は出典の色。地は白に寄せ、原文の箱と見分ける */
+.block-summary {
+	background: var(--color-bg);
+	border: 1px solid var(--slight);
+	border-left: 4px solid var(--sfg);
+}
+
+/* 見解は GIKOU の青で、帯を太く */
+.block-gikou {
+	border-left-width: 6px;
+}
+
+/* 記事の頭の要約：複数の出典にまたがるので地は無彩色 */
+.article-summary {
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	padding: var(--spacing-md) var(--spacing-lg);
+	margin-bottom: var(--spacing-xl);
+}
+
+.article-summary h2 {
+	font-size: var(--font-size-base);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--spacing-sm);
+	margin-bottom: var(--spacing-sm);
+}
+
+/* 出典一覧 */
+.sources {
+	margin-top: var(--spacing-2xl);
+	padding-top: var(--spacing-lg);
+	border-top: 1px solid var(--color-text);
+}
+
+.sources h2 {
+	font-size: var(--font-size-xl);
+	margin-bottom: var(--spacing-md);
+}
+
+.sources ol {
+	list-style: none;
+	display: grid;
+	gap: var(--spacing-sm);
+	font-size: var(--font-size-sm);
+}
+
+.sources li {
+	display: grid;
+	grid-template-columns: 2.5rem 1fr;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-xs) 0;
+	border-bottom: 1px solid var(--color-border);
+}
+
+.sources li:target {
+	background: var(--color-brand-bg);
+}
+
+.sources .num {
+	font-family: var(--font-mono);
+	color: var(--color-muted);
+}
+
+.sources .src-main {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--spacing-xs) var(--spacing-sm);
+}
+
+.sources .src-dates {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-xs);
+	color: var(--color-muted);
+}
+
+/* 関連記事 */
+.related {
+	max-width: var(--wide-width);
+	margin: var(--spacing-3xl) auto 0;
+	padding: var(--spacing-2xl) var(--spacing-lg);
+	border-top: 1px solid var(--color-border);
+}
+
+.related .card-list {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* 共通フッター */
+.site-footer {
+	margin-top: var(--spacing-3xl);
+	background: var(--color-surface);
+	border-top: 1px solid var(--color-border);
+}
+
+.footer-content {
+	max-width: var(--wide-width);
+	margin: 0 auto;
+	padding: var(--spacing-2xl) var(--spacing-lg) var(--spacing-xl);
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: var(--spacing-2xl);
+}
+
+.footer-logo {
+	font-size: var(--font-size-xl);
+	font-weight: 700;
+}
+
+.footer-tagline {
+	margin-top: var(--spacing-sm);
+	font-size: var(--font-size-sm);
+	color: var(--color-muted);
+}
+
+.footer-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-lg);
+	align-content: flex-start;
+	font-size: var(--font-size-sm);
+}
+
+.footer-links a {
+	color: var(--color-muted);
+}
+
+.footer-links a:hover {
+	color: var(--color-text);
+}
+
+.footer-note {
+	max-width: var(--wide-width);
+	margin: 0 auto;
+	padding: 0 var(--spacing-lg) var(--spacing-lg);
+	font-size: var(--font-size-xs);
+	color: var(--color-muted);
+}
+
+.footer-bottom {
+	max-width: var(--wide-width);
+	margin: 0 auto;
+	padding: var(--spacing-lg);
+	display: flex;
+	justify-content: space-between;
+	font-size: var(--font-size-sm);
+	color: var(--color-muted);
+	border-top: 1px solid var(--color-border);
+}
+
+/* モバイル */
+@media (max-width: 768px) {
+	.intro {
+		grid-template-columns: 1fr;
+		gap: var(--spacing-md);
+		padding: var(--spacing-lg);
+	}
+
+	.related .card-list {
+		grid-template-columns: 1fr;
+	}
+
+	.article-title {
+		font-size: var(--font-size-2xl);
+	}
+
+	.article-dek {
+		font-size: var(--font-size-base);
+	}
+
+	.block {
+		padding: var(--spacing-md);
+	}
+
+	.footer-content {
+		grid-template-columns: 1fr;
+		gap: var(--spacing-lg);
+	}
+
+	.footer-bottom {
+		flex-direction: column;
+		align-items: center;
+		gap: var(--spacing-xs);
+	}
+}
+
+@media (max-width: 540px) {
+	.nav {
+		flex-wrap: wrap;
+		row-gap: var(--spacing-sm);
+	}
+
+	.nav-links {
+		width: 100%;
+		margin-left: 0;
+		gap: var(--spacing-md);
+	}
+}
