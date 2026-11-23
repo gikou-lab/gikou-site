@@ -12,7 +12,8 @@
     "preview": "astro preview",
     "typecheck": "astro check",
     "check-links": "node scripts/check-links.mjs",
-    "check-security-txt": "node scripts/check-security-txt.mjs"
+    "check-security-txt": "node scripts/check-security-txt.mjs",
+    "check-cost-shapes": "node scripts/check-cost-shapes.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.1",
