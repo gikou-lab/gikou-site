@@ -42,7 +42,12 @@
 	// scripts/check-cost-shapes.mjs の PLAN を "paid" にすると、戻し忘れを CI が止める
 	// Sandboxed plugins require Worker Loader, available on Workers paid plans. Uncomment to enable:
 	// "worker_loaders": [{ "binding": "LOADER" }],
-	// General maintenance cron trigger
+	// 毎分の cron は EmDash が前提にしている刻み。src/worker.ts の scheduled が runScheduledTasks() を呼び、
+	// 毎回：cron プラグインの tick と固まった錠の回収・予約公開の掃き出し・プラグインの索引合わせ・
+	// バックアップの見（間隔で止まる・既定は切）・心音を D1 に 1 行。重い片付けは毎正時だけで、
+	// EmDash 自身が「Workers Free の起動時の CPU の枠を、静かな時間の毎分の片付けで食い潰さないため」と書いている
+	// （node_modules/emdash の runScheduledMaintenanceTick・2026-11-24 に読んだ）。
+	// 刻みを伸ばすと予約公開がその分遅れる。月およそ 43,200 回で、Workers の込みの回数にも D1 の書き込みの枠にも響かない
 	"triggers": {
 		"crons": ["* * * * *"],
 	},
