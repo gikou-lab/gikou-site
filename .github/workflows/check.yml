@@ -33,6 +33,8 @@ jobs:
           key: astro-fonts-${{ hashFiles('astro.config.mjs') }}
       # /.well-known/security.txt の Expires を見張る（切れる 30 日前から落ちる）
       - run: pnpm check-security-txt
+      # 請求が青天井になる形（limits 無し・Queue の輪・Durable Object の alarm・自分のホストへの fetch・上限の無いやり直し）が入ったら止める
+      - run: pnpm check-cost-shapes
       - run: pnpm typecheck
       - run: pnpm build
         env:
