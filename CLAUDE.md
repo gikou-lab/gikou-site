@@ -41,13 +41,14 @@ Cloudflare・EmDash の手順（初回の deploy・MCP・毎日の編集・課�
 
 - 取り消せない操作（公開・削除・外への送信）と、鍵・お金・外部アカウント（DNS・Cloudflare の鍵・Google の登録）は、帳面に書いて**答えを待つ**。答えが無いときの既定は「待つ」
 - 戻せる選択は、既定で進めて記録する
-- merge は慎太郎さんの手番。PR は確かめ終えたら ready で出す
+- merge は慎太郎さんの手番。PR は確かめ終えたら ready で出す。main には「人の承認が要る」ruleset が掛かっているので、渡すコマンドには `--admin` を付ける（`gh pr merge <番号> -R gikou-lab/gikou-site --merge --delete-branch --admin`・理由は gikou-site-board#9 の項目 6）
 
 ## 公開の口
 
 - 本番の Worker は `workers_dev = false`・`preview_urls = false`
 - 検索エンジンと AI のクローラーは止めない。守るのは問い合わせフォーム（Turnstile と回数の制限）・API・EmDash の管理画面（Cloudflare Access）だけ
 - 本番の公開は main への merge で CI が出す。手で出せるのはプレビューまで
+- **main に merge したら、その回の `deploy` が緑になるまで席が見届けて報告する。**`check` は PR のたびに走るが、Cloudflare の API に当たるのは main に入った後の `deploy` だけ。落ちても誰にも知らせが行かず、サイトは前の版のまま動き続けるので表からは見えない（2026-11-24 に 2 時間気づかなかった）
 - **ゾーン全体のスイッチは触らない。**gikou.dev の WAF・Bot 対策・キャッシュの設定は `in.gikou.dev`（窓口の webhook の入口）にも効く。守りはこのサイトの名前と道に絞ったルールで掛ける。`in.gikou.dev` には触れない
 - Cloudflare の中の名前（Worker・D1・R2・KV）は頭に `gikou-site-` を付ける。Workers AI は使わない（Indexer と無料枠を分け合っている）
 
